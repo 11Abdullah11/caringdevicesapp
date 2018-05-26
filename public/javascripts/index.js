@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  var timeData = [0, 2,4,8,10],
+  var timeData = [],
     temperatureData = [],
     ecgData = [];
   var startDate = new Date();
@@ -129,12 +129,11 @@ $(document).ready(function () {
     console.log('receive message' + message.data);
     try {
       var obj = JSON.parse(message.data);
-      if(!obj.time || !obj.ecg) {
+      if(!obj.ecg) {
         return;
       }
-      var rtime = obj.time;
       var time = timeData[timeData.length-1];
-	  tempdata.push(obj.temperature);
+	  temperatureData.push(obj.temperature);
 	  var ecgarr = obj.ecg;
       for (var i=0;i<ecgarr.length;i++){
 		  var d = new Date();
@@ -148,7 +147,7 @@ $(document).ready(function () {
       if (len > maxLen) {
         timeData.shift();
         ecgData.shift();
-		tempData.shift();
+		temperatureData.shift();
 	  }
 
 	  tempChart.update();
