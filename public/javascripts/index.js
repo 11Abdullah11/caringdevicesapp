@@ -10,7 +10,7 @@ $(document).ready(function () {
         fill: false,
         label: 'ECG',
         yAxisID: 'ECG',
-	lineTension: 0,
+		lineTension: 0,
         borderColor: "rgba(24, 120, 240, 1)",
         pointBoarderColor: "rgba(24, 120, 240, 1)",
         backgroundColor: "rgba(24, 120, 240, 0.4)",
@@ -30,34 +30,31 @@ $(document).ready(function () {
     scales: {
  	xAxes: [{
 		gridLines: {
-       zeroLineColor: "black",
-	     zeroLineWidth: 2
+		 zeroLineColor: "black",
+		 zeroLineWidth: 2
       },
     ticks: {
-      min: 0,
-     max: 6500,
-   stepSize: 1300
+		min: 5,
+		max: 10,
+	    stepSize: 2
 		},
-   		scaleLabel: {
+	scaleLabel: {
 		display: true,
-	   labelString: "Time in Seconds",
+ 		labelString: "Time in Seconds",
         fontColor: "red"
-		},
-		ticks: {
-         autoSkip: false,
-           min: 5,
-			max: 30
-		},
-		afterBuildTicks: function(scale){
+	}/*,
+	ticks: {
+		autoSkip: false,
+		min: 5,
+		max: 30
+	},
+	afterBuildTicks: function(scale){
 		scale.ticks = [];
 		scale.ticks.push(0);	
 		scale.ticks.push(1);
 		scale.ticks.push(2);
-		scale.ticks.push(5);
-			
-			
-		}	
-			
+		scale.ticks.push(5);	
+	}*/		
 	}],
 
      yAxes: [{
