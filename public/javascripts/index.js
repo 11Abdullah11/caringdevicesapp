@@ -1,8 +1,8 @@
 $(document).ready(function () {
   var timeData = [],
-    ecgTime = [],
-	temperatureData = [],
-    ecgData = [];
+	  ecgTime = [],
+  	  temperatureData = [],
+	  ecgData = [];
   var startDate = new Date();
   var data = {
     labels: ecgTime,
@@ -30,12 +30,11 @@ $(document).ready(function () {
     },
     scales: {
  	xAxes: [{
-	
-	scaleLabel: {
-		display: true,
- 		labelString: "Time in Seconds",
-        fontColor: "red"
-	}/*,
+		scaleLabel: {
+			display: true,
+			labelString: "Time",
+			fontColor: "red"
+		}/*,
 	ticks: {
 		autoSkip: false,
 		min: 5,
@@ -50,14 +49,14 @@ $(document).ready(function () {
 	}*/		
 	}],
     yAxes: [{
-          id: 'ECG',
-          type: 'linear',
-          scaleLabel: {
-            labelString: 'ECG(mV)',
+	   	id: 'ECG',
+	 	type: 'linear',
+   		scaleLabel: {
+   			labelString: 'ECG(mV)',
             display: true
-          },
-	 }]
-  }
+		},
+   	}]
+	}
   }
  
   var tempData = {
@@ -140,7 +139,7 @@ $(document).ready(function () {
 
 	  }
 		  // only keep no more than 50 points in the line chart
-      const maxLen = 50;
+      const maxLen = 30;
       var len = ecgTime.length;
       if (len > maxLen) {
         ecgTime.shift();
