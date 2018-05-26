@@ -31,7 +31,8 @@ $(document).ready(function () {
  	xAxes: [{
 		gridLines: {
 		 zeroLineColor: "black",
-		 zeroLineWidth: 2
+		 zeroLineWidth: 2,
+		 display: true
       },
     ticks: {
 		min: 5,
