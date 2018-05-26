@@ -35,18 +35,20 @@ $(document).ready(function () {
             labelString: 'ECG(mV)',
             display: true
           },
-          position: 'right',
-	  ticks: {
-             suggestedMin: -2,
-             suggestedMax: 5
-          }
-        }],
      elements: {
        line: {
           tension: 0, // disables bezier curves
        }
       }
-    }
+    }],
+	xAxes: [{
+		ticks: {
+			stepSize: 1,
+			unitStepSize: 2
+		}
+	
+	}]
+
   }
 
   //Get the context of the canvas element we want to select
