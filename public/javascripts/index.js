@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  var timeData = [0,1,2,3,4,5],
+  var timeData = [],
     temperatureData = [],
     ecgData = [];
   var startDate = new Date();
@@ -42,6 +42,11 @@ $(document).ready(function () {
       }
     }],
 	xAxes: [{
+		ticks: {
+         autoSkip: false,
+           min: 5,
+			max: 30
+		},
 		afterBuildTicks: function(scale){
 		scale.ticks = [];
 		scale.ticks.push(0);	
