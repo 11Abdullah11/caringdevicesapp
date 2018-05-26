@@ -42,11 +42,16 @@ $(document).ready(function () {
       }
     }],
 	xAxes: [{
-		ticks: {
-			stepSize: 1,
-			unitStepSize: 2
-		}
-	
+		afterBuildTicks: function(myLineChart){
+		myLineChart.ticks = [];
+		myLineChart.ticks.push(0);	
+		myLineChart.ticks.push(1);
+		myLineChart.ticks.push(2);
+		myLineChart.ticks.push(5);
+			
+			
+		}	
+			
 	}]
 
   }
