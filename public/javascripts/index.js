@@ -136,18 +136,21 @@ $(document).ready(function () {
 	  temperatureData.push(obj.temperature);
 	  var ecgarr = obj.ecg;
       for (var i=0;i<ecgarr.length;i++){
-		  var d = new Date();
-		  var n = d.getTime() - startDate.getTime();
 		  ecgData.push(ecgarr[i]);
-		  timeData.push(Math.floor(n/1000));
-      }
-      // only keep no more than 50 points in the line chart
+	  }
+	  var d = new Date();
+	  var n = d.getTime() - startDate.getTime();
+	  timeData.push(Math.floor(n/1000));
+
+	  // only keep no more than 50 points in the line chart
       const maxLen = 50;
       var len = timeData.length;
       if (len > maxLen) {
         timeData.shift();
         ecgData.shift();
-		temperatureData.shift();
+	  }
+	  if (tempData.length>maxLen){
+	  temperatureData.shift();
 	  }
 
 	  tempChart.update();
