@@ -28,20 +28,16 @@ $(document).ready(function () {
       fontSize: 36
     },
     scales: {
-      yAxes: [{
-          id: 'ECG',
-          type: 'linear',
-          scaleLabel: {
-            labelString: 'ECG(mV)',
-            display: true
-          },
-     elements: {
-       line: {
-          tension: 0, // disables bezier curves
-       }
-      }
-    }],
-	xAxes: [{
+ 	xAxes: [{
+		gridLines: {
+	      display: false,
+	     color: "black"
+		},
+      scaleLabel: {
+		display: true,
+	   labelString: "Time in Seconds",
+        fontColor: "red"
+		},
 		ticks: {
          autoSkip: false,
            min: 5,
@@ -57,8 +53,21 @@ $(document).ready(function () {
 			
 		}	
 			
-	}]
+	}],
 
+     yAxes: [{
+          id: 'ECG',
+          type: 'linear',
+          scaleLabel: {
+            labelString: 'ECG(mV)',
+            display: true
+          },
+     elements: {
+       line: {
+          tension: 0, // disables bezier curves
+       }
+      }
+    }]
   }
 
   //Get the context of the canvas element we want to select
