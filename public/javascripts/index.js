@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  var timeData = [],
+  var timeData = [0,1,2,3,4,5],
     temperatureData = [],
     ecgData = [];
   var startDate = new Date();
