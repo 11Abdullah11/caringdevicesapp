@@ -150,13 +150,14 @@ $(document).ready(function () {
 	  }
 		  // only keep no more than 50 points in the line chart
       const maxLen = 50;
-      var len = timeData.length;
+      var len = ecgTime.length;
       if (len > maxLen) {
-        timeData.shift();
+        ecgTime.shift();
         ecgData.shift();
 	  }
 	  if (tempData.length>maxLen){
 	  temperatureData.shift();
+	  timeData.shift();
 	  }
 
 	  tempChart.update();
