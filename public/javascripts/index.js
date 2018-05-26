@@ -1,10 +1,11 @@
 $(document).ready(function () {
   var timeData = [],
-    temperatureData = [],
+    ecgTime = [],
+	temperatureData = [],
     ecgData = [];
   var startDate = new Date();
   var data = {
-    labels: timeData,
+    labels: ecgTime,
     datasets: [
        {
         fill: false,
@@ -133,16 +134,21 @@ $(document).ready(function () {
         return;
       }
       var time = timeData[timeData.length-1];
-	  temperatureData.push(obj.temperature);
-	  var ecgarr = obj.ecg;
-      for (var i=0;i<ecgarr.length;i++){
-		  ecgData.push(ecgarr[i]);
-	  }
 	  var d = new Date();
 	  var n = d.getTime() - startDate.getTime();
 	  timeData.push(Math.floor(n/1000));
 
-	  // only keep no more than 50 points in the line chart
+
+	  temperatureData.push(obj.temperature);
+	  var ecgarr = obj.ecg;
+      for (var i=0;i<ecgarr.length;i++){
+		  ecgData.push(ecgarr[i]);
+	      var n = d.getTime() - startDate.getTime();
+	      ecgTime.push(Math.floor(n/1000));
+
+
+	  }
+		  // only keep no more than 50 points in the line chart
       const maxLen = 50;
       var len = timeData.length;
       if (len > maxLen) {
