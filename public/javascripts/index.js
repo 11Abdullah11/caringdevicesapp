@@ -42,12 +42,12 @@ $(document).ready(function () {
       }
     }],
 	xAxes: [{
-		afterBuildTicks: function(myLineChart){
-		myLineChart.ticks = [];
-		myLineChart.ticks.push(0);	
-		myLineChart.ticks.push(1);
-		myLineChart.ticks.push(2);
-		myLineChart.ticks.push(5);
+		afterBuildTicks: function(scale){
+		scale.ticks = [];
+		scale.ticks.push(0);	
+		scale.ticks.push(1);
+		scale.ticks.push(2);
+		scale.ticks.push(5);
 			
 			
 		}	
