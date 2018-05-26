@@ -30,16 +30,7 @@ $(document).ready(function () {
     },
     scales: {
  	xAxes: [{
-		gridLines: {
-		 zeroLineColor: "black",
-		 zeroLineWidth: 2,
-		 display: true
-      },
-    ticks: {
-		min: 5,
-		max: 10,
-	    stepSize: 2
-		},
+	
 	scaleLabel: {
 		display: true,
  		labelString: "Time in Seconds",
