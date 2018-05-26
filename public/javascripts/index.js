@@ -57,8 +57,7 @@ $(document).ready(function () {
 		scale.ticks.push(5);	
 	}*/		
 	}],
-
-     yAxes: [{
+    yAxes: [{
           id: 'ECG',
           type: 'linear',
           scaleLabel: {
@@ -66,8 +65,8 @@ $(document).ready(function () {
             display: true
           },
 	 }]
-  };
-
+  }
+  }
  
   var tempData = {
     labels: timeData,
@@ -102,7 +101,8 @@ $(document).ready(function () {
             display: true
           }
 	 }]
-  };
+  }
+  }
 
   
 
