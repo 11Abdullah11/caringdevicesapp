@@ -139,7 +139,7 @@ $(document).ready(function () {
 		  var d = new Date();
 		  var n = d.getTime() - startDate.getTime();
 		  ecgData.push(ecgarr[i]);
-		  timeData.push(floor(n/1000));
+		  timeData.push(Math.floor(n/1000));
       }
       // only keep no more than 50 points in the line chart
       const maxLen = 50;
