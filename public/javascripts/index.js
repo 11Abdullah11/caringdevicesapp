@@ -66,7 +66,7 @@ $(document).ready(function () {
             display: true
           },
 	 }]
-  }
+  };
 
  
   var tempData = {
@@ -102,7 +102,7 @@ $(document).ready(function () {
             display: true
           }
 	 }]
-  }
+  };
 
   
 
