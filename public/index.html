@@ -1,17 +1,25 @@
 <html>
-
 <head>
     <title>Temperature &amp; ECG live data</title>
     <script src="javascripts/jquery-2.1.4.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="javascripts/Chart.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="javascripts/index.js" type="text/javascript" charset="utf-8"></script>
+    <script src="javascripts/smoothie.js" type="text/javascript" charset="utf-8"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <link href="stylesheets/style.css" rel="stylesheet" />
 </head>
 
 <body>
-	<div><canvas id="myChart" width="200" height="70" ></canvas></div>
-	<div><canvas id="tempChart" width="200" height="70"  ></canvas></div>
-
+    <div class="container">
+	<div class="text-center"><h1>ECG</h1><canvas id="ecgCanvas" width="1000" height="300"></canvas></div>
+    <div class="text-center"><h1 >Temperature<button style="margin-left: 20px; background:#00ff66" class="btn btn-success btn-lg" id="temperatureButton"> </button></h1><canvas id="temperatureCanvas" width="1000" height="300" ></canvas></div>
+    <div class="text-center"><h1>Angular Velocity</h1><canvas id="anglesCanvas" width="1000" height="300"></canvas></div>    
+    </div>
 </body>
 
 </html>
+
