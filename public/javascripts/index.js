@@ -1,159 +1,123 @@
 $(document).ready(function () {
-  var timeData = [],
-	  ecgTime = [],
-  	  temperatureData = [],
-	  ecgData = [];
-  var startDate = new Date();
-  var data = {
-    labels: ecgTime,
-    datasets: [
-       {
-        fill: false,
-        label: 'ECG',
-        yAxisID: 'ECG',
-		lineTension: 0,
-        borderColor: "rgba(24, 120, 240, 1)",
-        pointBoarderColor: "rgba(24, 120, 240, 1)",
-        backgroundColor: "rgba(24, 120, 240, 0.4)",
-        pointHoverBackgroundColor: "rgba(24, 120, 240, 1)",
-        pointHoverBorderColor: "rgba(24, 120, 240, 1)",
-        data: ecgData
-      }
-    ]
+        var presentTemp;
+  function sleep(milliseconds) {
+  var start = new Date().getTime();
+  for (var i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > milliseconds){
+      break;
+    }
   }
+}
 
-  var basicOption = {
-    title: {
-      display: true,
-      text: 'ECG Real-time Data',
-      fontSize: 36
-    },
-    scales: {
- 	xAxes: [{
-		scaleLabel: {
-			display: true,
-			labelString: "Time",
-			fontColor: "red"
-		}/*,
-	ticks: {
-		autoSkip: false,
-		min: 5,
-		max: 30
-	},
-	afterBuildTicks: function(scale){
-		scale.ticks = [];
-		scale.ticks.push(0);	
-		scale.ticks.push(1);
-		scale.ticks.push(2);
-		scale.ticks.push(5);	
-	}*/		
-	}],
-    yAxes: [{
-	   	id: 'ECG',
-	 	type: 'linear',
-   		scaleLabel: {
-   			labelString: 'ECG(mV)',
-            display: true
-		},
-   	}]
-	}
-  }
- 
-  var tempData = {
-    labels: timeData,
-    datasets: [
-       {
-        fill: false,
-        label: 'temperature',
-        yAxisID: 'temperature',
-		lineTension: 0,
-        borderColor: "rgba(24, 120, 240, 1)",
-        pointBoarderColor: "rgba(24, 120, 240, 1)",
-        backgroundColor: "rgba(24, 120, 240, 0.4)",
-        pointHoverBackgroundColor: "rgba(24, 120, 240, 1)",
-        pointHoverBorderColor: "rgba(24, 120, 240, 1)",
-        data: temperatureData
-      }
-    ]
-  }
 
-  var tempOption = {
-    title: {
-      display: true,
-      text: 'Temperature ',
-      fontSize: 36
-    },
-    scales: {
-     yAxes: [{
-          id: 'temperature',
-          type: 'linear',
-          scaleLabel: {
-            labelString: 'T(C)',
-            display: true
-          }
-	 }]
-  }
-  }
-
-  
-
-	//Get the context of the canvas element we want to select
-  var ctx = document.getElementById("myChart").getContext("2d");
-  var tempctx = document.getElementById("tempChart").getContext("2d");
-  var optionsNoAnimation = { animation: false }
-  var myLineChart = new Chart(ctx, {
-    type: 'line',
-    data: data,
-    options: basicOption
+  //Charts Init
+  var ecgChart = new SmoothieChart({
+  millisPerPixel:10,interpolation:'linear',
+  scaleSmoothing:0.325,
+  grid:{
+    fillStyle:'#ffffff',strokeStyle:'rgba(119,119,119,0.13)',
+    sharpLines:true,verticalSections:14},
+    labels:{fillStyle:'#800080'},
+    tooltip:true,
+    maxValue:1000,minValue:0,
+  timestampFormatter:SmoothieChart.timeFormatter
   });
-  var tempChart = new Chart(tempctx,{
-	type: 'line',
-	data: tempData,
-	options: tempOption
-  
+
+  var temperatureChart = new SmoothieChart({
+  millisPerPixel:80,
+  maxValueScale:0.85,
+  minValueScale:0.8,
+  interpolation:'linear',
+  scaleSmoothing:0.207,
+  grid:{fillStyle:'#ffffff',strokeStyle:'rgba(119,119,119,0.28)',
+    sharpLines:true,millisPerLine:7000,verticalSections:14},
+        labels:{fillStyle:'#800080'},
+    tooltip:true,
+    maxValue:60,minValue:0,
+  timestampFormatter:SmoothieChart.timeFormatter
   });
+
+  var anglesChart = new SmoothieChart({
+  millisPerPixel:80,
+  maxValueScale:0.85,
+  minValueScale:0.8,
+  interpolation:'linear',
+  scaleSmoothing:0.207,
+  grid:{fillStyle:'#ffffff',strokeStyle:'rgba(119,119,119,0.28)',
+    sharpLines:true,millisPerLine:7000,verticalSections:14},
+        labels:{fillStyle:'#800080'},
+    tooltip:true,
+    maxValue:65536,minValue:0,
+  timestampFormatter:SmoothieChart.timeFormatter
+  });
+
+
+// Data
+var ecg = new TimeSeries();
+var temperature = new TimeSeries();
+var angle1 = new TimeSeries();
+var angle2 = new TimeSeries();
+var angle3 = new TimeSeries();
+
+// Add to SmoothieChart
+ecgChart.streamTo(document.getElementById("ecgCanvas"), 0 /*delay*/);
+ecgChart.addTimeSeries(ecg, {lineWidth:2,strokeStyle:'#000000'});
+
+temperatureChart.streamTo(document.getElementById("temperatureCanvas"), 0 /*delay*/);
+temperatureChart.addTimeSeries(temperature, {lineWidth:2,strokeStyle:'#000000'});
+
+
+anglesChart.streamTo(document.getElementById("anglesCanvas"), 0 /*delay*/);
+anglesChart.addTimeSeries(angle1, {lineWidth:2,strokeStyle:'#00ff00'});
+anglesChart.addTimeSeries(angle2, {lineWidth:2,strokeStyle:'#aa00dd'});
+anglesChart.addTimeSeries(angle3, {lineWidth:2,strokeStyle:'#000000'});
+
   var ws = new WebSocket('wss://' + location.host);
   ws.onopen = function () {
     console.log('Successfully connect WebSocket');
   }
   ws.onmessage = function (message) {
-    console.log('receive message' + message.data);
+    //console.log('receive message' + message.data);
+    console.log("Hello DATA");
     try {
       var obj = JSON.parse(message.data);
-      if(!obj.ecg) {
-        return;
-      }
-      var time = timeData[timeData.length-1];
-	  var d = new Date();
-	  var n = d.getTime() - startDate.getTime();
-	  timeData.push(Math.floor(n/1000));
+      //update ECG and angles data
 
+      var ecgArr = obj.ecg;
+      var anglesArr = obj.angles;
+      var i=0;
+      console.log(presentTemp);
+      console.log('before id');
+      console.log(ecgArr);
+      // update data
+      var id = setInterval(function(){
+        ecg.append(new Date().getTime(), ecgArr[i]);
+        temperature.append(new Date().getTime(),presentTemp);
+        i++;
+        console.log(i);
+        if (i==499){
+          clearInterval(id);
+          i=0;
+        }
+      },50);
 
-	  temperatureData.push(obj.temperature);
-	  var ecgarr = obj.ecg;
-      for (var i=0;i<ecgarr.length;i++){
-		  ecgData.push(ecgarr[i]);
-	      var n = d.getTime() - startDate.getTime();
-	      ecgTime.push(Math.floor(n/1000));
-
-
-	  }
-		  // only keep no more than 50 points in the line chart
-      const maxLen = 30;
-      var len = ecgTime.length;
-      if (len > maxLen) {
-        ecgTime.shift();
-        ecgData.shift();
-	  }
-	  if (tempData.length>maxLen){
-	  temperatureData.shift();
-	  timeData.shift();
-	  }
-
-	  tempChart.update();
-      myLineChart.update();
-    } catch (err) {
+      var j=0,k=25,l=50;
+      var id2 = setInterval(function(){
+        ecg.append(new Date().getTime(), ecgArr[i]);
+                  temperature.append(new Date().getTime(),presentTemp);
+                  console.log(presentTemp);
+          angle1.append(new Date().getTime(),anglesArr[j]);
+          angle2.append(new Date().getTime(),anglesArr[k]);
+          angle3.append(new Date().getTime(),anglesArr[l]);
+       j++;k++;l++;
+       if (j==25){
+          clearInterval(id2);
+          j=0;k=25;l=50;
+        }
+      },100);
+	  } catch (err) {
       console.error(err);
     }
   }
 });
+
